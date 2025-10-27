@@ -3,6 +3,7 @@ title: "PECI Preliminary Tract Data"
 ---
 
 ```{r}
+#| include: false
 library(tidyverse)
 library(tidycensus)
 library(sf)
@@ -11,6 +12,7 @@ library(scales)
 ```
 
 ```{r}
+#| include: false
 # Selected ACS data from 2023 5-year survey.
 
 acs_data <- read.csv("data/data_overview.csv")
@@ -19,6 +21,7 @@ acs_data$GEOID <- as.character(acs_data$GEOID)
 ```
 
 ```{r}
+#| include: false
 # Shapefile data.
 
 philly_tracts <- st_read("data/philly_tracts/philly_tracts.shp")
@@ -33,12 +36,13 @@ map_tracts <- map_tracts %>%
 ```
 
 ```{r}
+#| echo: false
 # Leaflet mapping.
 
 # Base layer.
 preliminary_map <- leaflet(map_tracts) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
-  setView(lng = -75.1638, lat = 39.9523, zoom = 12)
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11)
 
 # Population density.
 preliminary_map <- preliminary_map %>%
