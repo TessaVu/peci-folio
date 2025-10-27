@@ -1,22 +1,68 @@
 ---
-title: "MUSA 5080 Portfolio"
+title: "PECI Preliminary Tract Data"
 ---
 
-# Welcome to My Portfolio
+```{r}
+library(tidyverse)
+library(tidycensus)
+library(sf)
+library(leaflet)
+library(scales)
+```
 
-This portfolio documents my learning journey in Public Policy Analytics (MUSA 5080).
+```{r}
+# Selected ACS data from 2023 5-year survey.
 
-## About This Course
-Advanced spatial analysis and data science for urban planning and public policy.
+acs_data <- read.csv("data/data_overview.csv")
 
-## Portfolio Structure
-- **Weekly Notes:** My learning reflections and key concepts
-- **Labs:** Completed assignments and analyses
-- **Final Project:** Capstone modeling challenge
+acs_data$GEOID <- as.character(acs_data$GEOID)
+```
 
-## About Me
-[Students will customize this section]
+```{r}
+# Shapefile data.
 
-## Contact
-- Email: [your.email@upenn.edu]
-- GitHub: [@your-username]
+philly_tracts <- st_read("data/philly_tracts/philly_tracts.shp")
+
+philly_tracts <- philly_tracts %>%
+  filter(COUNTYFP == "101")
+
+map_tracts <- left_join(philly_tracts, acs_data, by = "GEOID")
+
+map_tracts <- map_tracts %>%
+  st_set_crs(4326)
+```
+
+```{r}
+# Leaflet mapping.
+
+# Base layer.
+preliminary_map <- leaflet(map_tracts) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 12)
+
+# Population density.
+preliminary_map <- preliminary_map %>%
+  addPolygons(
+    fillColor = ~colorQuantile("YlGnBu", pop_density)(pop_density),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Total Population: ", pop_density, "<br>",
+      "Median Income: $", med_h_inc
+    ),
+    group = "Population Density"
+  )
+
+preliminary_map
+```

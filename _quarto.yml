@@ -3,17 +3,15 @@ project:
   output-dir: docs
 
 website:
-  title: "Your Name - MUSA 5080 Portfolio"
+  title: "Philly Emerging Water Contaminants Initiative"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - href: weekly-notes/
-        text: Weekly Notes
 
 format:
   html:
-    theme: cosmo
+    theme: lux
     toc: true
     code-fold: true
 

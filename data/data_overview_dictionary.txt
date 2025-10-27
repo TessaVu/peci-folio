@@ -1,0 +1,488 @@
+--------------------------------------------------------------------------------
+Codebook for Social Explorer report ID: R50025749
+--------------------------------------------------------------------------------
+
+Contents
+    - Table Summary
+    - Data Dictionary
+    - Citation and Use
+
+
+--------------------------------------------------------------------------------
+Table Summary
+--------------------------------------------------------------------------------
+ 
+Survey:           ACS 2023 (5-Year Estimates)
+Dataset:          Social Explorer Tables: ACS 2023 (5-Year Estimates)
+Tables:
+
+      1. Population Density (Per Sq. Mile)
+         Universe:  Total Population
+         Name:      A00002
+         Variables:
+            A00002_001:   Total Population
+            A00002_002:   Population Density (Per Sq. Mile)
+            A00002_003:   Area (Land)
+
+
+      2. Sex
+         Universe:  Total Population
+         Name:      A02001
+         Variables:
+            A02001_001:   Total Population:
+            A02001_002:      Male
+            A02001_003:      Female
+
+
+      3. Age
+         Universe:  Total Population
+         Name:      A01001
+         Variables:
+            A01001_001:   Total Population:
+            A01001_002:      Under 5 Years
+            A01001_003:      5 to 9 Years
+            A01001_004:      10 to 14 Years
+            A01001_005:      15 to 17 Years
+            A01001_006:      18 to 24 Years
+            A01001_007:      25 to 34 Years
+            A01001_008:      35 to 44 Years
+            A01001_009:      45 to 54 Years
+            A01001_010:      55 to 64 Years
+            A01001_011:      65 to 74 Years
+            A01001_012:      75 to 84 Years
+            A01001_013:      85 Years and Over
+
+
+      4. Race
+         Universe:  Total Population
+         Name:      A03001
+         Variables:
+            A03001_001:   Total Population:
+            A03001_002:      White Alone
+            A03001_003:      Black or African American Alone
+            A03001_004:      American Indian and Alaska Native Alone
+            A03001_005:      Asian Alone
+            A03001_006:      Native Hawaiian and Other Pacific Islander Alone
+            A03001_007:      Some Other Race Alone
+            A03001_008:      Two or More Races
+
+
+      5. Housing Units by Household Size
+         Universe:  Universe:  Occupied housing units
+         Name:      A10024
+         Variables:
+            A10024_001:   Occupied Housing Units:
+            A10024_002:      1-Person Household
+            A10024_003:      2-Person Household
+            A10024_004:      3-Person Household
+            A10024_005:      4-Person Household
+            A10024_006:      5-Person Household
+            A10024_007:      6-Person Household
+            A10024_008:      7-or-More Person Household
+
+
+      6. Household Size (Renter-Occupied Housing Units)
+         Universe:  Universe:  Renter-Occupied Housing Units
+         Name:      A10002B
+         Variables:
+            A10002B_001:   Renter-Occupied Housing Units:
+            A10002B_002:      1-Person Household
+            A10002B_003:      2-Person Household
+            A10002B_004:      3-Person Household
+            A10002B_005:      4-Person Household
+            A10002B_006:      5-Person Household
+            A10002B_007:      6-Person Household
+            A10002B_008:      7-or-More Person Household
+
+
+      7. Households by Race of Householder
+         Universe:  Households
+         Name:      A10010
+         Variables:
+            A10010_001:   Households:
+            A10010_002:      With a Householder Who Is White Alone
+            A10010_003:      With a Householder Who Is Black or African  American Alone
+            A10010_004:      With a Householder Who Is American Indian and  Alaska Native Alone
+            A10010_005:      With a Householder Who Is Asian Alone
+            A10010_006:      With a Householder Who Is Native Hawaiian and  Other Pacific Islander Alone
+            A10010_007:      With a Householder Who Is Some Other Race Alone
+            A10010_008:      With a Householder Who Is Two or More Races
+            A10010_009:      With a Householder Who Is Hispanic or Latino
+            A10010_010:      With a Householder Who Is White Alone, Not  Hispanic or Latino
+
+
+      8. Race (Renter-Occupied Housing Units)
+         Universe:  Universe:  Renter-Occupied Housing Units
+         Name:      A03001B
+         Variables:
+            A03001B_001:   Renter-Occupied Housing Units:
+            A03001B_002:      White Alone Householder
+            A03001B_003:      Black or African American Alone Householder
+            A03001B_004:      American Indian and Alaska Native Alone Householder
+            A03001B_005:      Asian Alone Householder
+            A03001B_006:      Native Hawaiian and Other Pacific Islander Alone Householder
+            A03001B_007:      Some Other Race Alone Householder
+            A03001B_008:      Two or More Races Householder
+            A03001B_009:      White Alone, Not Hispanic or Latino Householder
+            A03001B_010:      Hispanic or Latino Householder
+
+
+      9. Average Household Size
+         Universe:  Occupied Households
+         Name:      A10003
+         Variables:
+            A10003_001:   Average Household Size
+
+
+      10. Average Household Size of Renter-Occupied Housing Units
+          Universe:  Universe:  Renter-Occupied Housing Units
+          Name:      A10003B
+          Variables:
+             A10003B_001:   Average Household Size for Renter-Occupied Housing Units
+
+
+      11. Educational Attainment for Population 25 Years and Over
+          Universe:  Population 25 Years and Over
+          Name:      A12001
+          Variables:
+             A12001_001:   Population 25 Years and Over:
+             A12001_002:      Less than High School
+             A12001_003:      High School Graduate or More (Includes Equivalency)
+             A12001_004:      Some College or More
+             A12001_005:      Bachelor's Degree or More
+             A12001_006:      Master's Degree or More
+             A12001_007:      Professional School Degree or More
+             A12001_008:      Doctorate Degree
+
+
+      12. School Dropout Rate for Population 16 to 19 Years
+          Universe:  Civilian Population 16 to 19 Years
+          Name:      A12003
+          Variables:
+             A12003_001:   Civilian Population 16 to 19 Years:
+             A12003_002:      Not High School Graduate, Not Enrolled (Dropped Out)
+             A12003_003:      High School Graduate, or Enrolled (In School)
+
+
+      13. Employment Status for Total Population 16 Years and Over
+          Universe:  Population 16 Years and Over
+          Name:      A17002
+          Variables:
+             A17002_001:   Population 16 Years and Over:
+             A17002_002:      In Labor Force:
+             A17002_003:         In Armed Forces
+             A17002_004:         Civilian:
+             A17002_005:            Employed
+             A17002_006:            Unemployed
+             A17002_007:      Not in Labor Force
+
+
+      14. Median Household Income (In <DollarYear> Inflation Adjusted Dollars)
+          Universe:  Households
+          Name:      A14006
+          Variables:
+             A14006_001:   Median Household Income (In 2023 Inflation Adjusted Dollars)
+
+
+      15. White vs Non-White Homeowners
+          Universe:  Owner Occupied Housing Units
+          Name:      B10060
+          Variables:
+             B10060_001:   Owner Occupied Housing Units:
+             B10060_002:      White Alone, Not Hispanic or Latino Homeowners 
+             B10060_003:      Non-White Homeowners
+
+
+      16. Occupancy Status
+          Universe:  Housing units
+          Name:      A10044
+          Variables:
+             A10044_001:   Housing Units:
+             A10044_002:      Occupied
+             A10044_003:      Vacant
+
+
+      17. Vacancy Status by Type of Vacancy
+          Universe:  Vacant housing units
+          Name:      A10047
+          Variables:
+             A10047_001:   Vacant Housing Units:
+             A10047_002:      For Rent
+             A10047_003:      For Sale Only
+             A10047_004:      Other Vacant
+
+
+      18. Housing Units in Structure
+          Universe:  Housing Units
+          Name:      A10032
+          Variables:
+             A10032_001:   Housing Units:
+             A10032_002:      1 Unit:
+             A10032_003:         1, Detached
+             A10032_004:         1, Attached
+             A10032_005:      2
+             A10032_006:      3 or 4
+             A10032_007:      5 to 9
+             A10032_008:      10 to 19
+             A10032_009:      20 to 49
+             A10032_010:      50 or More
+             A10032_011:      Mobile Home
+             A10032_012:      Boat, Rv, Van, Etc.
+
+
+      19. Median Year Structure Built
+          Universe:  Housing units
+          Name:      A10057
+          Variables:
+             A10057_001:   Median Year Structure Built
+
+
+      20. Residents Paying More Than 30% or at least 50% of Income on Rent
+          Universe:  Renter-Occupied Housing Units
+          Name:      B18002
+          Variables:
+             B18002_001:   Renter-Occupied Housing Units:
+             B18002_002:      30 to 49 Percent
+             B18002_003:      50 percent or More
+
+
+      21. Residents Paying More Than 30% or at least 50% of Income on Selected Home Ownership Expenses
+          Universe:  Owner-Occupied Housing Units
+          Name:      B10040
+          Variables:
+             B10040_001:   Owner-Occupied Housing Units:
+             B10040_002:      Homeowners Who are Paying at Least 30% of Income for Ownership Costs
+             B10040_003:      Homeowners Who are Paying at Least 50% of Income for Ownership Costs
+
+
+      22. Ratio of Income in 2023 to Poverty Level
+          Universe:  Population for whom poverty status Is determined
+          Name:      A13004
+          Variables:
+             A13004_001:   Population for Whom Poverty Status Is Determined:
+             A13004_002:      Under .50
+             A13004_003:      .50 to .74
+             A13004_004:      .75 to .99
+             A13004_005:      1.00 to 1.49
+             A13004_006:      1.50 to 1.99
+             A13004_007:      2.00 and Over
+
+
+      23. Health Insurance
+          Universe:  Civilian Noninstitutionalized Population
+          Name:      A20001
+          Variables:
+             A20001_001:   Total:
+             A20001_002:      No Health Insurance Coverage
+             A20001_003:      With Health Insurance Coverage:
+             A20001_004:         Public Health Coverage
+             A20001_005:         Private Health Insurance
+
+
+
+
+
+ 
+ 
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Variables 
+      Geo__geoid_:    FIPS
+      Geo_qname:      Qualified Area Name
+      Geo_STUSAB:     State Postal Abbreviation
+      Geo_SUMLEV:     Summary Level
+      Geo_GEOCOMP:    Geographic Component
+      Geo_US:         US
+      Geo_REGION:     Census Region
+      Geo_DIVISION:   Census Division
+      Geo_STATE:      State (FIPS Code)
+      Geo_COUNTY:     County of current residence
+      Geo_COUSUB:     County Subdivision (FIPS)
+      Geo_PLACE:      Place (FIPS Code)
+      Geo_TRACT:      Census Tract
+      Geo_BLKGRP:     Block Group
+      Geo_CONCIT:     Consolidated City
+      Geo_AIANHH:     American Indian Area/Alaska Native Area/ Hawaiian Home Land (Census)
+      Geo_AIANHHFP:   American Indian Area/Alaska Native Area/ Hawaiian Home Land (FIPS)
+      Geo_AIHHTLI:    American Indian Trust Land/Hawaiian Home Land Indicator
+      Geo_AITS:       American Indian Tribal Subdivision (FIPS)
+      Geo_ANRC:       Alaska Native Regional Corporation (FIPS)
+      Geo_CBSA:       Metropolitan and Micropolitan Statistical Area
+      Geo_CSA:        Combined Statistical Area
+      Geo_METDIV:     Metropolitan Statistical Area-Metropolitan Division
+      Geo_MACC:       Metropolitan Area Central City
+      Geo_MEMI:       Metropolitan/Micropolitan Indicator Flag
+      Geo_NECTA:      New England City and Town Area
+      Geo_CNECTA:     New England City and Town Combined Statistical Area
+      Geo_NECTADIV:   New England City and Town Area Division
+      Geo_UA:         Urban Area
+      Geo_CDCURR:     Current Congressional District ***
+      Geo_SLDU:       State Legislative District Upper
+      Geo_SLDL:       State Legislative District Lower
+      Geo_ZCTA3:      ZIP Code Tabulation Area (3-digit)
+      Geo_ZCTA5:      5-digit ZIP Code Tabulation Area
+      Geo_SUBMCD:     Subminor Civil Division (FIPS)
+      Geo_SDELM:      State-School District (Elementary)
+      Geo_SDSEC:      State-School District (Secondary)
+      Geo_SDUNI:      State-School District (Unified)
+      Geo_UR:         Urban/Rural
+      Geo_PCI:        Principal City Indicator
+      Geo_PUMA5:      Public Use Microdata Area – 5% File
+      Geo_GEO_ID:     Geographic Identifier
+      Geo_NAME:       Area Name
+      Geo_BTTR:       Tribal Tract
+      Geo_BTBG:       Tribal Block Group
+      Geo_PLACESE:    Place (State FIPS + Place FIPS)
+      SE_A00002_001:  Total Population
+      SE_A00002_002:  Population Density (Per Sq. Mile)
+      SE_A00002_003:  Area (Land)
+      SE_A02001_001:  Total Population:
+      SE_A02001_002:  Total Population: Male
+      SE_A02001_003:  Total Population: Female
+      SE_A01001_001:  Total Population:
+      SE_A01001_002:  Total Population: Under 5 Years
+      SE_A01001_003:  Total Population: 5 to 9 Years
+      SE_A01001_004:  Total Population: 10 to 14 Years
+      SE_A01001_005:  Total Population: 15 to 17 Years
+      SE_A01001_006:  Total Population: 18 to 24 Years
+      SE_A01001_007:  Total Population: 25 to 34 Years
+      SE_A01001_008:  Total Population: 35 to 44 Years
+      SE_A01001_009:  Total Population: 45 to 54 Years
+      SE_A01001_010:  Total Population: 55 to 64 Years
+      SE_A01001_011:  Total Population: 65 to 74 Years
+      SE_A01001_012:  Total Population: 75 to 84 Years
+      SE_A01001_013:  Total Population: 85 Years and Over
+      SE_A03001_001:  Total Population:
+      SE_A03001_002:  Total Population: White Alone
+      SE_A03001_003:  Total Population: Black or African American Alone
+      SE_A03001_004:  Total Population: American Indian and Alaska Native Alone
+      SE_A03001_005:  Total Population: Asian Alone
+      SE_A03001_006:  Total Population: Native Hawaiian and Other Pacific Islander Alone
+      SE_A03001_007:  Total Population: Some Other Race Alone
+      SE_A03001_008:  Total Population: Two or More Races
+      SE_A10024_001:  Occupied Housing Units
+      SE_A10024_002:  Occupied Housing Units: 1-Person Household
+      SE_A10024_003:  Occupied Housing Units: 2-Person Household
+      SE_A10024_004:  Occupied Housing Units: 3-Person Household
+      SE_A10024_005:  Occupied Housing Units: 4-Person Household
+      SE_A10024_006:  Occupied Housing Units: 5-Person Household
+      SE_A10024_007:  Occupied Housing Units: 6-Person Household
+      SE_A10024_008:  Occupied Housing Units: 7-or-More Person Household
+      SE_A10002B_001: Renter-Occupied Housing Units
+      SE_A10002B_002: Renter-Occupied Housing Units: 1-Person Household
+      SE_A10002B_003: Renter-Occupied Housing Units: 2-Person Household
+      SE_A10002B_004: Renter-Occupied Housing Units: 3-Person Household
+      SE_A10002B_005: Renter-Occupied Housing Units: 4-Person Household
+      SE_A10002B_006: Renter-Occupied Housing Units: 5-Person Household
+      SE_A10002B_007: Renter-Occupied Housing Units: 6-Person Household
+      SE_A10002B_008: Renter-Occupied Housing Units: 7-or-More Person Household
+      SE_A10010_001:  Households:
+      SE_A10010_002:  Households: With a Householder Who Is White Alone
+      SE_A10010_003:  Households: With a Householder Who Is Black or African  American Alone
+      SE_A10010_004:  Households: With a Householder Who Is American Indian and  Alaska Native Alone
+      SE_A10010_005:  Households: With a Householder Who Is Asian Alone
+      SE_A10010_006:  Households: With a Householder Who Is Native Hawaiian and  Other Pacific Islander Alone
+      SE_A10010_007:  Households: With a Householder Who Is Some Other Race Alone
+      SE_A10010_008:  Households: With a Householder Who Is Two or More Races
+      SE_A10010_009:  Households: With a Householder Who Is Hispanic or Latino
+      SE_A10010_010:  Households: With a Householder Who Is White Alone, Not  Hispanic or Latino
+      SE_A03001B_001: Renter-Occupied Housing Units
+      SE_A03001B_002: Renter-Occupied Housing Units: White Alone Householder
+      SE_A03001B_003: Renter-Occupied Housing Units: Black or African American Alone Householder
+      SE_A03001B_004: Renter-Occupied Housing Units: American Indian and Alaska Native Alone Householder
+      SE_A03001B_005: Renter-Occupied Housing Units: Asian Alone Householder
+      SE_A03001B_006: Renter-Occupied Housing Units: Native Hawaiian and Other Pacific Islander Alone Householder
+      SE_A03001B_007: Renter-Occupied Housing Units: Some Other Race Alone Householder
+      SE_A03001B_008: Renter-Occupied Housing Units: Two or More Races Householder
+      SE_A03001B_009: Renter-Occupied Housing Units: White Alone, Not Hispanic or Latino Householder
+      SE_A03001B_010: Renter-Occupied Housing Units: Hispanic or Latino Householder
+      SE_A10003_001:  Average Household Size
+      SE_A10003B_001: Average Household Size for Renter-Occupied Housing Units
+      SE_A12001_001:  Population 25 Years and Over:
+      SE_A12001_002:  Population 25 Years and Over: Less than High School
+      SE_A12001_003:  Population 25 Years and Over: High School Graduate or More (Includes Equivalency)
+      SE_A12001_004:  Population 25 Years and Over: Some College or More
+      SE_A12001_005:  Population 25 Years and Over: Bachelor's Degree or More
+      SE_A12001_006:  Population 25 Years and Over: Master's Degree or More
+      SE_A12001_007:  Population 25 Years and Over: Professional School Degree or More
+      SE_A12001_008:  Population 25 Years and Over: Doctorate Degree
+      SE_A12003_001:  Civilian Population 16 to 19 Years:
+      SE_A12003_002:  Civilian Population 16 to 19 Years: Not High School Graduate, Not Enrolled (Dropped Out)
+      SE_A12003_003:  Civilian Population 16 to 19 Years: High School Graduate, or Enrolled (In School)
+      SE_A17002_001:  Population 16 Years and Over:
+      SE_A17002_002:  Population 16 Years and Over: In Labor Force
+      SE_A17002_003:  Population 16 Years and Over: In Labor Force: In Armed Forces
+      SE_A17002_004:  Population 16 Years and Over: In Labor Force: Civilian
+      SE_A17002_005:  Population 16 Years and Over: In Labor Force: Civilian: Employed
+      SE_A17002_006:  Population 16 Years and Over: In Labor Force: Civilian: Unemployed
+      SE_A17002_007:  Population 16 Years and Over: Not in Labor Force
+      SE_A14006_001:  Median Household Income (In 2023 Inflation Adjusted Dollars)
+      SE_B10060_001:  Owner Occupied Housing Units
+      SE_B10060_002:  Owner Occupied Housing Units: White Alone, Not Hispanic or Latino Homeowners 
+      SE_B10060_003:  Owner Occupied Housing Units: Non-White Homeowners
+      SE_A10044_001:  Housing Units:
+      SE_A10044_002:  Housing Units: Occupied
+      SE_A10044_003:  Housing Units: Vacant
+      SE_A10047_001:  Vacant Housing Units:
+      SE_A10047_002:  Vacant Housing Units: For Rent
+      SE_A10047_003:  Vacant Housing Units: For Sale Only
+      SE_A10047_004:  Vacant Housing Units: Other Vacant
+      SE_A10032_001:  Housing Units:
+      SE_A10032_002:  Housing Units: 1 Unit
+      SE_A10032_003:  Housing Units: 1 Unit: 1, Detached
+      SE_A10032_004:  Housing Units: 1 Unit: 1, Attached
+      SE_A10032_005:  Housing Units: 2
+      SE_A10032_006:  Housing Units: 3 or 4
+      SE_A10032_007:  Housing Units: 5 to 9
+      SE_A10032_008:  Housing Units: 10 to 19
+      SE_A10032_009:  Housing Units: 20 to 49
+      SE_A10032_010:  Housing Units: 50 or More
+      SE_A10032_011:  Housing Units: Mobile Home
+      SE_A10032_012:  Housing Units: Boat, Rv, Van, Etc.
+      SE_A10057_001:  Median Year Structure Built
+      SE_B18002_001:  Renter-Occupied Housing Units
+      SE_B18002_002:  Renter-Occupied Housing Units: 30 to 49 Percent
+      SE_B18002_003:  Renter-Occupied Housing Units: 50 percent or More
+      SE_B10040_001:  Owner-Occupied Housing Units
+      SE_B10040_002:  Owner-Occupied Housing Units: Homeowners Who are Paying at Least 30% of Income for Ownership Costs
+      SE_B10040_003:  Owner-Occupied Housing Units: Homeowners Who are Paying at Least 50% of Income for Ownership Costs
+      SE_A13004_001:  Population for Whom Poverty Status Is Determined:
+      SE_A13004_002:  Population for Whom Poverty Status Is Determined: Under .50
+      SE_A13004_003:  Population for Whom Poverty Status Is Determined: .50 to .74
+      SE_A13004_004:  Population for Whom Poverty Status Is Determined: .75 to .99
+      SE_A13004_005:  Population for Whom Poverty Status Is Determined: 1.00 to 1.49
+      SE_A13004_006:  Population for Whom Poverty Status Is Determined: 1.50 to 1.99
+      SE_A13004_007:  Population for Whom Poverty Status Is Determined: 2.00 and Over
+      SE_A20001_001:  Total:
+      SE_A20001_002:  Total: No Health Insurance Coverage
+      SE_A20001_003:  Total: With Health Insurance Coverage
+      SE_A20001_004:  Total: With Health Insurance Coverage: Public Health Coverage
+      SE_A20001_005:  Total: With Health Insurance Coverage: Private Health Insurance
+
+
+
+
+--------------------------------------------------------------------------------
+Citation and Use of Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* Publications and research reports employing the data
+  must cite it appropriately. The citation should include the following:
+
+	  www.socialexplorer.com
+	  New York City, NY: Social Explorer 2025
+
+
+* Citations should also include the URL for this report.
+
+If you have any questions contact info@socialexplorer.com
+ 
+--------------------------------------------------------------------------------
+Compiler version: 2.2.9.0
+Last compiled on: 2025-06-10 09:02:39Z
