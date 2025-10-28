@@ -18,6 +18,34 @@ library(scales)
 acs_data <- read.csv("data/data_overview.csv")
 
 acs_data$GEOID <- as.character(acs_data$GEOID)
+
+acs_data <- acs_data %>%
+  mutate(pct_vacancies = housing_vacant / housing_units,
+         pct_occupied = housing_occupied / housing_units,
+         pct_white = white / pop_total,
+         pct_black = black / pop_total,
+         pct_hispanic = hispanic / pop_total,
+         pct_asian = asian / pop_total,
+         pct_native = native / pop_total,
+         pct_pacific = pacific / pop_total,
+         pct_other = other_race / pop_total,
+         pct_two_more = two_more_races / pop_total,
+         pct_bach = bach_more / pop_total,
+         num_minor = age_under_5 + age_5_to_9_yrs + age_10_to_14_yrs + age_15_to_17_yrs,
+         num_adult = age_18_to_24_yrs + age_25_to_34_yrs + age_35_to_44_yrs + age_45_to_54_yrs + age_55_to_64_yrs,
+         num_elderly = age_65_to_74_yrs + age_75_to_84_yrs + age_85_over,
+         pct_minor = num_minor / pop_total,
+         pct_adult = num_adult / pop_total,
+         pct_elderly = num_elderly / pop_total,
+         pct_homeowner = occupied_housing / pop_total,
+         pct_renter = occupied_renter / pop_total,
+         pct_undergrad_age = age_18_to_24_yrs / pop_total,
+         pct_no_health_insurance = no_health_insurance / pop_total,
+         pct_drop_out = age_16_to_19_yrs_drop_out / pop_total,
+         pct_female = female / pop_total,
+         pct_male = male / pop_total)
+
+acs_data[is.na(acs_data)] <- 0
 ```
 
 ```{r}
@@ -35,19 +63,30 @@ map_tracts <- map_tracts %>%
   st_set_crs(4326)
 ```
 
+## NOTE: Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale.
+
+- Means **only extreme outliers will show darker colors**, this is because they didn't have enough observations to color by quantiles.
+
+- All other maps are colored by quantiles. You'll be able to see the absolute value by hovering and clicking on the tract. This is better for identifying clusters and comparing different areas.
+
+# Population Map
+
 ```{r}
 #| echo: false
 # Leaflet mapping.
 
 # Base layer.
-preliminary_map <- leaflet(map_tracts) %>%
+pop_map <- leaflet(map_tracts) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   setView(lng = -75.1638, lat = 39.9523, zoom = 11)
 
-# Population density.
-preliminary_map <- preliminary_map %>%
+# Full map.
+pop_map <- pop_map %>%
+  
+  # Population density.
   addPolygons(
-    fillColor = ~colorQuantile("YlGnBu", pop_density)(pop_density),
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pop_density)(pop_density),
     weight = 1,
     opacity = 1,
     color = "white",
@@ -62,11 +101,748 @@ preliminary_map <- preliminary_map %>%
     ),
     popup = ~paste0(
       "Tract: ", NAME, "<br>",
-      "Total Population: ", pop_density, "<br>",
-      "Median Income: $", med_h_inc
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
     ),
     group = "Population Density"
+  ) %>%
+
+  # Median income.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", med_h_inc)(med_h_inc),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Median Household Income"
+  ) %>%
+  
+  # White.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_white)(pct_white),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_white, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent White"
+  ) %>%
+  
+  # Black.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_black)(pct_black),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_black, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Black"
+  ) %>%
+  
+  # Hispanic.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorNumeric("viridis", pct_hispanic)(pct_hispanic),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_hispanic, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Hispanic"
+  ) %>%
+
+  # Asian.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_asian)(pct_asian),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_asian, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Asian"
+  ) %>%
+  
+  # Native.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorNumeric("viridis", pct_native)(pct_native),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_native, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Native American"
+  ) %>%
+  
+  # Pacific.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorNumeric("viridis", pct_pacific)(pct_pacific),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_pacific, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Hawaiian / Pacific Islander"
+  ) %>%
+  
+  # Other.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_other)(pct_other),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_other, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Other Race"
+  ) %>%
+  
+  # Two or more races.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_two_more)(pct_two_more),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_two_more, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Two or More Races"
+  ) %>%
+  
+  # Add layer controls
+  addLayersControl(
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Black", "Percent Hispanic", "Percent White", "Percent Asian", "Percent Native American", "Percent Hawaiian / Pacific Islander", "Percent Other Race", "Percent Two or More Races"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+    
+  hideGroup(c("Median Household Income", "Percent Black", "Percent Hispanic", "Percent White", "Percent Asian", "Percent Native American", "Percent Hawaiian / Pacific Islander", "Percent Other Race", "Percent Two or More Races"))
+
+pop_map
+```
+
+# Age and Sex Map
+
+```{r}
+#| echo: false
+# Leaflet mapping.
+
+# Base layer.
+age_map <- leaflet(map_tracts) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11)
+
+# Full map.
+age_map <- age_map %>%
+  
+  # Population density.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pop_density)(pop_density),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Population Density"
+  ) %>%
+  
+  # Median household income.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", med_h_inc)(med_h_inc),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Median Household Income"
+  ) %>%
+  
+  # Minors.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_minor)(pct_minor),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_minor, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Minors (< 18 yrs.)"
+  ) %>%
+  
+  # Adults.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_adult)(pct_adult),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_adult, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Adult (18 - 64 yrs.)"
+  ) %>%
+  
+  # Elderly.
+  addPolygons(
+    fillColor = ~colorQuantile("viridis", pct_elderly)(pct_elderly),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_elderly, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Elderly (65+ yrs.)"
+  ) %>%
+  
+  # Add layer controls
+  addLayersControl(
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+    
+  hideGroup(c("Population Density", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)"))
+
+age_map
+```
+
+# Education Map
+
+```{r}
+#| echo: false
+# Leaflet mapping.
+
+# Base layer.
+education_map <- leaflet(map_tracts) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11) %>%
+
+  # Population density.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pop_density)(pop_density),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Population Density"
+  ) %>%
+  
+  # Median income.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", med_h_inc)(med_h_inc),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Median Household Income"
+  ) %>%
+    
+  # Undergrad.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_undergrad_age)(pct_undergrad_age),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_undergrad_age, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Undergraduate Age (18 - 24 yrs.)"
+  ) %>%
+  
+  # Drop out.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorNumeric("viridis", pct_drop_out)(pct_drop_out),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_drop_out, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Drop-Out (16 - 19 yrs.)"
+  ) %>%
+  
+  # Bachelor's.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_bach)(pct_bach),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_bach, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Bachelor's Degrees or More"
+  ) %>%
+  
+  # Add layer controls
+  addLayersControl(
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Drop-Out (16 - 19 yrs.)", "Percent Undergraduate Age (18 - 24 yrs.)", "Percent Bachelor's Degrees or More"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+    
+  hideGroup(c("Population Density", "Median Household Income", "Percent Undergraduate Age (18 - 24 yrs.)", "Percent Bachelor's Degrees or More"))
+  
+education_map
+```
+
+# Housing Map
+
+```{r}
+#| echo: false
+# Leaflet mapping.
+
+# Base layer.
+housing_map <- leaflet(map_tracts) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11) %>%
+
+  # Population density.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pop_density)(pop_density),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Population Density"
+  ) %>%
+  
+  # Median income.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", med_h_inc)(med_h_inc),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density: ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Median Household Income"
+  ) %>%
+    
+  # Homeowner.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_homeowner)(pct_homeowner),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_homeowner, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Homeowner"
+  ) %>%
+  
+  # Renter.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_renter)(pct_renter),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_renter, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Renter"
+  ) %>%
+  
+  # No health insurance.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pct_no_health_insurance)(pct_no_health_insurance),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.75,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.75,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(pct_no_health_insurance, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent No Health Insurance"
+  ) %>%
+  
+  # Add layer controls
+  addLayersControl(
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Homeowner", "Percent Renter", "Percent No Health Insurance"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+    
+  hideGroup(c("Population Density", "Median Household Income", "Percent Renter", "Percent No Health Insurance"))
+  
+housing_map
+```
+
+# Land Use
+
+```{r}
+#| eval: false
+#| include: false
+# Leaflet mapping.
+
+# --- Load and prepare data
+land_use <- st_read("data/Land_Use/Land_Use.shp") %>%
+  st_set_crs(3857) %>%
+  st_transform(4326) %>%
+  select(c_dig1) %>%
+  mutate(
+    c_dig1 = recode_factor(
+      c_dig1,
+      `1` = "Residential",
+      `2` = "Commercial",
+      `3` = "Industrial",
+      `4` = "Civic / Institution",
+      `5` = "Transportation",
+      `6` = "Culture / Recreation",
+      `7` = "Park / Open Space",
+      `8` = "Water",
+      `9` = "Vacant / Other"
+    )
   )
 
-preliminary_map
+# --- Define palette keyed by names (not numbers)
+landuse_colors <- c(
+  "Residential"        = "#f2c649",
+  "Commercial"         = "#e57200",
+  "Industrial"         = "#a67c52",
+  "Civic / Institution"= "#7f8dd3",
+  "Transportation"     = "#c0c0c0",
+  "Culture / Recreation"= "#ba68c8",
+  "Park / Open Space"  = "#55a868",
+  "Water"              = "#4fa9e8",
+  "Vacant / Other"     = "#d9d9d9"
+)
+
+# --- Start map
+m <- leaflet() %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11)
+
+# --- Add each land-use category as its own overlay group
+for (cat in names(landuse_colors)) {
+  subset_data <- land_use[land_use$c_dig1 == cat, ]
+  if (nrow(subset_data) == 0) next  # skip if no polygons
+  
+  m <- m %>%
+    addPolygons(
+      data = subset_data,
+      group = cat,
+      fillColor = landuse_colors[cat],
+      color = "black",
+      weight = 0.3,
+      fillOpacity = 0.8,
+      label = ~paste("Land Use:", c_dig1),
+      highlightOptions = highlightOptions(
+        weight = 1,
+        color = "white",
+        fillOpacity = 0.9,
+        bringToFront = TRUE
+      )
+    )
+}
+
+# --- Add layer control and legend
+m %>%
+  addLayersControl(
+    overlayGroups = names(landuse_colors),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  addLegend(
+    "bottomright",
+    colors = landuse_colors,
+    labels = names(landuse_colors),
+    title = "Land Use",
+    opacity = 0.9
+  )
+
+m
 ```
