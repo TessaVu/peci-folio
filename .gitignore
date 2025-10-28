@@ -1,2 +1,8 @@
 /.quarto/
 **/*.quarto_ipynb
+data/Land_Use/Land_Use.cpg
+data/Land_Use/Land_Use.dbf
+data/Land_Use/Land_Use.prj
+data/Land_Use/Land_Use.shp
+data/Land_Use/Land_Use.shx
+data/Land_Use/Land_Use.xml
