@@ -63,7 +63,7 @@ map_tracts <- map_tracts %>%
   st_set_crs(4326)
 ```
 
-## NOTE: Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale.
+**NOTE:** Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale.
 
 - Means **only extreme outliers will show darker colors**, this is because they didn't have enough observations to color by quantiles.
 
@@ -761,8 +761,6 @@ housing_map <- leaflet(map_tracts) %>%
   
 housing_map
 ```
-
-# Land Use
 
 ```{r}
 #| eval: false
