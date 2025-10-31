@@ -73,6 +73,10 @@ map_tracts <- map_tracts %>%
 
 ```{r}
 #| echo: false
+#| fig-height: 8
+#| fig-width: 10
+#| out-width: "100%"
+
 # Leaflet mapping.
 
 # Base layer.
@@ -323,7 +327,107 @@ pop_map <- pop_map %>%
     group = "Percent Two or More Races"
   ) %>%
   
-  # Add layer controls
+  # Add legends for each layer.
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pop_density),
+    values = map_tracts$pop_density,
+    title = "Population<br>Density",
+    opacity = 0.75,
+    group = "Population Density"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$med_h_inc),
+    values = map_tracts$med_h_inc,
+    title = "Median<br>Income ($)",
+    opacity = 0.75,
+    labFormat = labelFormat(prefix = "$", big.mark = ","),
+    group = "Median Household Income"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_white),
+    values = map_tracts$pct_white,
+    title = "% White",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent White"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_black),
+    values = map_tracts$pct_black,
+    title = "% Black",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Black"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorNumeric("viridis", map_tracts$pct_hispanic),
+    values = map_tracts$pct_hispanic,
+    title = "% Hispanic",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Hispanic"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_asian),
+    values = map_tracts$pct_asian,
+    title = "% Asian",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Asian"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorNumeric("viridis", map_tracts$pct_native),
+    values = map_tracts$pct_native,
+    title = "% Native<br>American",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Native American"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorNumeric("viridis", map_tracts$pct_pacific),
+    values = map_tracts$pct_pacific,
+    title = "% Hawaiian /<br>Pacific Islander",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Hawaiian / Pacific Islander"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_other),
+    values = map_tracts$pct_other,
+    title = "% Other<br>Race",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Other Race"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_two_more),
+    values = map_tracts$pct_two_more,
+    title = "% Two or<br>More Races",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Two or More Races"
+  ) %>%
+  
+  # Add layer controls.
   addLayersControl(
     overlayGroups = c("Population Density", "Median Household Income", "Percent Black", "Percent Hispanic", "Percent White", "Percent Asian", "Percent Native American", "Percent Hawaiian / Pacific Islander", "Percent Other Race", "Percent Two or More Races"),
     options = layersControlOptions(collapsed = FALSE)
@@ -338,6 +442,10 @@ pop_map
 
 ```{r}
 #| echo: false
+#| fig-height: 8
+#| fig-width: 10
+#| out-width: "100%"
+
 # Leaflet mapping.
 
 # Base layer.
@@ -446,6 +554,7 @@ age_map <- age_map %>%
   
   # Elderly.
   addPolygons(
+    data = map_tracts,
     fillColor = ~colorQuantile("viridis", pct_elderly)(pct_elderly),
     weight = 1,
     opacity = 1,
@@ -467,7 +576,57 @@ age_map <- age_map %>%
     group = "Percent Elderly (65+ yrs.)"
   ) %>%
   
-  # Add layer controls
+  # Add legends for each layer.
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pop_density),
+    values = map_tracts$pop_density,
+    title = "Population<br>Density",
+    opacity = 0.75,
+    group = "Population Density"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$med_h_inc),
+    values = map_tracts$med_h_inc,
+    title = "Median<br>Income ($)",
+    opacity = 0.75,
+    labFormat = labelFormat(prefix = "$", big.mark = ","),
+    group = "Median Household Income"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_minor),
+    values = map_tracts$pct_minor,
+    title = "% Minors<br>(< 18 yrs.)",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Minors (< 18 yrs.)"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_adult),
+    values = map_tracts$pct_adult,
+    title = "% Adult<br>(18 - 64 yrs.)",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Adult (18 - 64 yrs.)"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_elderly),
+    values = map_tracts$pct_elderly,
+    title = "% Elderly<br>(65+ yrs.)",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Elderly (65+ yrs.)"
+  ) %>%
+  
+  # Add layer controls.
   addLayersControl(
     overlayGroups = c("Population Density", "Median Household Income", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)"),
     options = layersControlOptions(collapsed = FALSE)
@@ -609,7 +768,7 @@ education_map <- leaflet(map_tracts) %>%
     group = "Percent Bachelor's Degrees or More"
   ) %>%
   
-  # Add layer controls
+  # Add layer controls.
   addLayersControl(
     overlayGroups = c("Population Density", "Median Household Income", "Percent Drop-Out (16 - 19 yrs.)", "Percent Undergraduate Age (18 - 24 yrs.)", "Percent Bachelor's Degrees or More"),
     options = layersControlOptions(collapsed = FALSE)
@@ -624,10 +783,14 @@ education_map
 
 ```{r}
 #| echo: false
+#| fig-height: 8
+#| fig-width: 10
+#| out-width: "100%"
+
 # Leaflet mapping.
 
 # Base layer.
-housing_map <- leaflet(map_tracts) %>%
+education_map <- leaflet(map_tracts) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   setView(lng = -75.1638, lat = 39.9523, zoom = 11) %>%
 
@@ -679,10 +842,10 @@ housing_map <- leaflet(map_tracts) %>%
     group = "Median Household Income"
   ) %>%
     
-  # Homeowner.
+  # Undergrad.
   addPolygons(
     data = map_tracts,
-    fillColor = ~colorQuantile("viridis", pct_homeowner)(pct_homeowner),
+    fillColor = ~colorQuantile("viridis", pct_undergrad_age)(pct_undergrad_age),
     weight = 1,
     opacity = 1,
     color = "white",
@@ -697,16 +860,16 @@ housing_map <- leaflet(map_tracts) %>%
     ),
     popup = ~paste0(
       "Tract: ", NAME, "<br>",
-      "Value: ", format(round(pct_homeowner, 2), nsmall = 2), "%", "<br>",
+      "Value: ", format(round(pct_undergrad_age, 2), nsmall = 2), "%", "<br>",
       "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
     ),
-    group = "Percent Homeowner"
+    group = "Percent Undergraduate Age (18 - 24 yrs.)"
   ) %>%
   
-  # Renter.
+  # Drop out.
   addPolygons(
     data = map_tracts,
-    fillColor = ~colorQuantile("viridis", pct_renter)(pct_renter),
+    fillColor = ~colorNumeric("viridis", pct_drop_out)(pct_drop_out),
     weight = 1,
     opacity = 1,
     color = "white",
@@ -721,16 +884,16 @@ housing_map <- leaflet(map_tracts) %>%
     ),
     popup = ~paste0(
       "Tract: ", NAME, "<br>",
-      "Value: ", format(round(pct_renter, 2), nsmall = 2), "%", "<br>",
+      "Value: ", format(round(pct_drop_out, 2), nsmall = 2), "%", "<br>",
       "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
     ),
-    group = "Percent Renter"
+    group = "Percent Drop-Out (16 - 19 yrs.)"
   ) %>%
   
-  # No health insurance.
+  # Bachelor's.
   addPolygons(
     data = map_tracts,
-    fillColor = ~colorQuantile("viridis", pct_no_health_insurance)(pct_no_health_insurance),
+    fillColor = ~colorQuantile("viridis", pct_bach)(pct_bach),
     weight = 1,
     opacity = 1,
     color = "white",
@@ -745,21 +908,70 @@ housing_map <- leaflet(map_tracts) %>%
     ),
     popup = ~paste0(
       "Tract: ", NAME, "<br>",
-      "Value: ", format(round(pct_no_health_insurance, 2), nsmall = 2), "%", "<br>",
+      "Value: ", format(round(pct_bach, 2), nsmall = 2), "%", "<br>",
       "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
     ),
-    group = "Percent No Health Insurance"
+    group = "Percent Bachelor's Degrees or More"
   ) %>%
   
-  # Add layer controls
+  # Add legends for each layer.
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pop_density),
+    values = map_tracts$pop_density,
+    title = "Population<br>Density",
+    opacity = 0.75,
+    group = "Population Density"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$med_h_inc),
+    values = map_tracts$med_h_inc,
+    title = "Median<br>Income ($)",
+    opacity = 0.75,
+    labFormat = labelFormat(prefix = "$", big.mark = ","),
+    group = "Median Household Income"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_undergrad_age),
+    values = map_tracts$pct_undergrad_age,
+    title = "% Undergrad<br>Age (18-24)",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Undergraduate Age (18 - 24 yrs.)"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorNumeric("viridis", map_tracts$pct_drop_out),
+    values = map_tracts$pct_drop_out,
+    title = "% Drop-Out<br>(16-19 yrs.)",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Drop-Out (16 - 19 yrs.)"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pct_bach),
+    values = map_tracts$pct_bach,
+    title = "% Bachelor's<br>or More",
+    opacity = 0.75,
+    labFormat = labelFormat(suffix = "%"),
+    group = "Percent Bachelor's Degrees or More"
+  ) %>%
+  
   addLayersControl(
-    overlayGroups = c("Population Density", "Median Household Income", "Percent Homeowner", "Percent Renter", "Percent No Health Insurance"),
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Drop-Out (16 - 19 yrs.)", "Percent Undergraduate Age (18 - 24 yrs.)", "Percent Bachelor's Degrees or More"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
     
-  hideGroup(c("Population Density", "Median Household Income", "Percent Renter", "Percent No Health Insurance"))
+  hideGroup(c("Population Density", "Median Household Income", "Percent Undergraduate Age (18 - 24 yrs.)", "Percent Bachelor's Degrees or More"))
   
-housing_map
+education_map
 ```
 
 ```{r}
@@ -767,7 +979,7 @@ housing_map
 #| include: false
 # Leaflet mapping.
 
-# --- Load and prepare data
+# Restrict to 9 land-use categories, no sub-categories.
 land_use <- st_read("data/Land_Use/Land_Use.shp") %>%
   st_set_crs(3857) %>%
   st_transform(4326) %>%
@@ -787,7 +999,7 @@ land_use <- st_read("data/Land_Use/Land_Use.shp") %>%
     )
   )
 
-# --- Define palette keyed by names (not numbers)
+# Custom land use colors to match Philadelphia's color code.
 landuse_colors <- c(
   "Residential"        = "#f2c649",
   "Commercial"         = "#e57200",
@@ -800,17 +1012,17 @@ landuse_colors <- c(
   "Vacant / Other"     = "#d9d9d9"
 )
 
-# --- Start map
-m <- leaflet() %>%
+# Base map layer.
+land_use_map <- leaflet() %>%
   addProviderTiles(providers$CartoDB.DarkMatter) %>%
   setView(lng = -75.1638, lat = 39.9523, zoom = 11)
 
-# --- Add each land-use category as its own overlay group
+# Assign colors.
 for (cat in names(landuse_colors)) {
   subset_data <- land_use[land_use$c_dig1 == cat, ]
-  if (nrow(subset_data) == 0) next  # skip if no polygons
+  if (nrow(subset_data) == 0) next
   
-  m <- m %>%
+  land_use_map <- land_use_map %>%
     addPolygons(
       data = subset_data,
       group = cat,
@@ -828,8 +1040,7 @@ for (cat in names(landuse_colors)) {
     )
 }
 
-# --- Add layer control and legend
-m %>%
+land_use_map %>%
   addLayersControl(
     overlayGroups = names(landuse_colors),
     options = layersControlOptions(collapsed = FALSE)
@@ -842,5 +1053,5 @@ m %>%
     opacity = 0.9
   )
 
-m
+land_use_map
 ```

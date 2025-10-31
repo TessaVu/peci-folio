@@ -1,9 +1,0 @@
-[
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PECI Preliminary Tract Data",
-    "section": "",
-    "text": "NOTE: Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale.\n\nMeans only extreme outliers will show darker colors, this is because they didn’t have enough observations to color by quantiles.\nAll other maps are colored by quantiles. You’ll be able to see the absolute value by hovering and clicking on the tract. This is better for identifying clusters and comparing different areas.\n\n\nPopulation Map\n\n\n\n\n\n\n\n\nAge and Sex Map\n\n\n\n\n\n\n\n\nEducation Map\n\n\n\n\n\n\n\n\nHousing Map"
-  }
-]
