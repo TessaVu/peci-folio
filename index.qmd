@@ -84,21 +84,45 @@ map_tracts <- map_tracts %>%
 philadelphia_svi <- find_svi(year = 2022, state = "PA", geography = "tract")
 
 # Filter for Philadelphia County (FIPS code for Philadelphia County is 42101)
-philadelphia_svi <- subset(philadelphia_svi, grepl("^42101", GEOID))
+philadelphia_svi <- subset(philadelphia_svi, grepl("^42101", GEOID)) %>%
+  select(-c("year", "state"))
 ```
 
 ```{r}
 #| echo: false
 #| include: false
-map_tracts <- left_join(map_tracts, philadelphia_svi, by = "GEOID") %>%
-  mutate(pop_density = pop_total / area_mi)
+philadelphia_eji <- read_csv("data/EJI_2024_Pennsylvania_CSV/EJI_2024_Pennsylvania.csv")
+
+philadelphia_eji <- philadelphia_eji %>%
+  filter(COUNTYFP == "101") %>%
+  select(c("GEOID", "RPL_EBM", "RPL_CBM", "RPL_HVM", "RPL_EJI_CBM")) %>%
+  mutate(
+    RPL_EBM = na_if(RPL_EBM, -999),
+    RPL_CBM = na_if(RPL_CBM, -999),
+    RPL_HVM = na_if(RPL_HVM, -999),
+    RPL_EJI_CBM = na_if(RPL_EJI_CBM, -999)
+  )
+
+philadelphia_eji$GEOID <- as.character(philadelphia_eji$GEOID)
+
+write.csv(philadelphia_eji, "philadelphia_eji.csv", row.names = FALSE)
 ```
 
-**NOTE:** Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale.
+```{r}
+#| echo: false
+#| include: false
+map_tracts <- left_join(map_tracts, philadelphia_svi, by = "GEOID")
 
--   Means **only extreme outliers will show darker colors**, this is because they didn't have enough observations to color by quantiles.
+map_tracts <- left_join(map_tracts, philadelphia_eji, by = "GEOID")
+```
 
--   All other maps are colored by quantiles. You'll be able to see the absolute value by hovering and clicking on the tract. This is better for identifying clusters and comparing different areas.
+**NOTE:** Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values in percents on a continuous scale. This means **only extreme outliers will show darker colors**, this is because they didn't have enough observations to color by quantiles.
+
+-   All other maps are colored by quantiles, which divides the data into groups with an equal number of census tracts, making it easy to compare between the high-value and low-value populations or areas. This is better for identifying clusters and comparing different areas.
+
+- You'll be able to see the absolute value by hovering and clicking on the tract.
+
+### The color palette goes from low (purple) to high (yellow). All census data from 2024 5-year ACS, aggregated by census tracts.
 
 ::: {layout-ncol=2}
 ## Population Map
@@ -464,7 +488,6 @@ pop_map
 ```
 
 ## Age and Sex Map
-
 ```{r}
 #| echo: false
 
@@ -601,6 +624,56 @@ age_map <- age_map %>%
     group = "Percent Elderly (65+ yrs.)"
   ) %>%
   
+  
+  # Female.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", female)(female),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(female, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Female"
+  ) %>%
+  
+  
+  # Male.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", male)(male),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(male, 2), nsmall = 2), "%", "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Percent Male"
+  ) %>%
+  
   # Add legends for each layer.
   addLegend(
     position = "bottomright",
@@ -648,13 +721,31 @@ age_map <- age_map %>%
     group = "Percent Elderly (65+ yrs.)"
   ) %>%
   
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$female),
+    values = map_tracts$female,
+    title = "% Female",
+    opacity = 0.75,
+    group = "Percent Female"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$male),
+    values = map_tracts$male,
+    title = "% Male",
+    opacity = 0.75,
+    group = "Percent Male"
+  ) %>%
+  
   # Add layer controls.
   addLayersControl(
-    overlayGroups = c("Population Density", "Median Household Income", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)"),
+    overlayGroups = c("Population Density", "Median Household Income", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)", "Percent Female", "Percent Male"),
     options = layersControlOptions(collapsed = TRUE)
   ) %>%
     
-  hideGroup(c("Population Density", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)"))
+  hideGroup(c("Population Density", "Median Household Income", "Percent Minors (< 18 yrs.)", "Percent Adult (18 - 64 yrs.)", "Percent Elderly (65+ yrs.)", "Percent Male"))
 
 age_map
 ```
@@ -1048,7 +1139,9 @@ housing_map
 ```
 :::
 
-## [Social Vulnerability Index (SVI)](https://www.atsdr.cdc.gov/place-health/php/svi/svi-frequently-asked-questions-faqs.html) Map
+## [2022 Social Vulnerability Index (SVI)](https://www.atsdr.cdc.gov/place-health/php/svi/index.html) Map
+
+![SVI Themes](data/SVI-Overall-Theme-Indicator-Image.png)
 
 ```{r}
 #| echo: false
@@ -1303,6 +1396,234 @@ svi_map <- leaflet(map_tracts) %>%
   hideGroup(c("Population Density", "Median Household Income", "Socioeconomic Status SVI", "Household Characteristics SVI", "Racial & Ethnic Minority Status SVI", "Racial & Ethnic Minority Status SVI", "Housing Type & Transportation SVI"))
   
 svi_map
+```
+
+## [2024 Environmental Justice Index (EJI)](https://www.atsdr.cdc.gov/place-health/php/eji/index.html) Map
+
+![EJI Themes](data/Variable_graphic_v3.png)
+
+![EJI Indicators](data/Climate-Burden-2.png)
+
+```{r}
+#| echo: false
+#| fig-height: 10
+#| fig-width: 12
+
+# Leaflet mapping.
+
+# Base layer.
+ej_map <- leaflet(map_tracts) %>%
+  addTiles() %>%
+  setView(lng = -75.1638, lat = 39.9523, zoom = 11) %>%
+
+  # Population density.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", pop_density)(pop_density),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density (sq. mi.): ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Population Density"
+  ) %>%
+  
+  # Median income.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", med_h_inc)(med_h_inc),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Population Density (sq. mi.): ", format(pop_density, big.mark = ",", digits = 2, nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Median Household Income"
+  ) %>%
+    
+  # Environmental burden.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", RPL_EBM)(RPL_EBM),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(RPL_EBM, 2), nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Environmental Burden EJI"
+  ) %>%
+  
+  # Climate burden.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", RPL_CBM)(RPL_CBM),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(RPL_CBM, 2), nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Climate Burden EJI"
+  ) %>%
+  
+  # Health vulnerability.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorNumeric("viridis", RPL_HVM)(RPL_HVM),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(RPL_HVM, 2), nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Health Vulnerability EJI"
+  ) %>%
+  
+  # Overall EJI.
+  addPolygons(
+    data = map_tracts,
+    fillColor = ~colorQuantile("viridis", RPL_EJI_CBM)(RPL_EJI_CBM),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.5,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      dashArray = "",
+      fillOpacity = 0.5,
+      bringToFront = TRUE
+    ),
+    popup = ~paste0(
+      "Tract: ", NAME, "<br>",
+      "Value: ", format(round(RPL_EJI_CBM, 2), nsmall = 2), "<br>",
+      "Median Income: $", format(med_h_inc, big.mark = ",", nsmall = 0)
+    ),
+    group = "Overall EJI"
+  ) %>%
+  
+  # Add legends for each layer.
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$pop_density),
+    values = map_tracts$pop_density,
+    title = "Population<br>Density",
+    opacity = 0.75,
+    group = "Population Density"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$med_h_inc),
+    values = map_tracts$med_h_inc,
+    title = "Median<br>Income (Quantile)",
+    opacity = 0.75,
+    labFormat = labelFormat(big.mark = ","),
+    group = "Median Household Income"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$RPL_EBM),
+    values = map_tracts$RPL_EBM,
+    title = "Environmental Burden EJI",
+    opacity = 0.75,
+    group = "Environmental Burden EJI"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$RPL_CBM),
+    values = map_tracts$RPL_CBM,
+    title = "Climate Burden EJI",
+    opacity = 0.75,
+    group = "Climate Burden EJI"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorNumeric("viridis", map_tracts$RPL_HVM,),
+    values = map_tracts$RPL_HVM,
+    title = "Health Vulnerability EJI",
+    opacity = 0.75,
+    group = "Health Vulnerability EJI"
+  ) %>%
+  
+  addLegend(
+    position = "bottomright",
+    pal = colorQuantile("viridis", map_tracts$RPL_EJI_CBM),
+    values = map_tracts$RPL_EJI_CBM,
+    title = "Overall EJI",
+    opacity = 0.75,
+    group = "Overall EJI"
+  ) %>%
+  
+  addLayersControl(
+    overlayGroups = c("Population Density", "Median Household Income", "Environmental Burden EJI", "Climate Burden EJI", "Health Vulnerability EJI", "Overall EJI"),
+    options = layersControlOptions(collapsed = TRUE)
+  ) %>%
+    
+  hideGroup(c("Population Density", "Median Household Income", "Environmental Burden EJI", "Climate Burden EJI", "Health Vulnerability EJI"))
+  
+ej_map
 ```
 
 ```{r}
