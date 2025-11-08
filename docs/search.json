@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Philadelphia Demographics",
+    "section": "",
+    "text": "NOTE: Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values on a continuous scale."
+  },
+  {
+    "objectID": "index.html#population-map",
+    "href": "index.html#population-map",
+    "title": "Philadelphia Demographics",
+    "section": "Population Map",
+    "text": "Population Map"
+  },
+  {
+    "objectID": "index.html#age-and-sex-map",
+    "href": "index.html#age-and-sex-map",
+    "title": "Philadelphia Demographics",
+    "section": "Age and Sex Map",
+    "text": "Age and Sex Map"
+  },
+  {
+    "objectID": "index.html#education-map",
+    "href": "index.html#education-map",
+    "title": "Philadelphia Demographics",
+    "section": "Education Map",
+    "text": "Education Map"
+  },
+  {
+    "objectID": "index.html#housing-map",
+    "href": "index.html#housing-map",
+    "title": "Philadelphia Demographics",
+    "section": "Housing Map",
+    "text": "Housing Map"
+  },
+  {
+    "objectID": "index.html#social-vulnerability-index-svi-map",
+    "href": "index.html#social-vulnerability-index-svi-map",
+    "title": "Philadelphia Demographics",
+    "section": "Social Vulnerability Index (SVI) Map",
+    "text": "Social Vulnerability Index (SVI) Map"
+  }
+]
