@@ -122,7 +122,7 @@ map_tracts <- left_join(map_tracts, philadelphia_eji, by = "GEOID")
 
 - You'll be able to see the absolute value by hovering and clicking on the tract.
 
-### The color palette goes from low (purple) to high (yellow). All census data from 2024 5-year ACS, aggregated by census tracts.
+#### The color palette goes from low (purple) to high (yellow). All census data from 2024 5-year ACS, aggregated by census tracts.
 
 ::: {layout-ncol=2}
 ## Population Map
