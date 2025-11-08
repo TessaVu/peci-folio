@@ -17,6 +17,7 @@ library(findSVI)
 ```
 
 ```{r}
+#| include: false
 # Set Census API key
 census_api_key("3aaee31789e10b674a531e9f236c35d5394b19ed")
 ```
@@ -74,6 +75,7 @@ map_tracts <- map_tracts %>%
 ```
 
 ```{r}
+#| include: false
 philadelphia_svi <- find_svi(year = 2022, state = "PA", geography = "tract")
 
 # Filter for Philadelphia County (FIPS code for Philadelphia County is 42101)
@@ -81,6 +83,7 @@ philadelphia_svi <- subset(philadelphia_svi, grepl("^42101", GEOID))
 ```
 
 ```{r}
+#| include: false
 map_tracts <- left_join(map_tracts, philadelphia_svi, by = "GEOID") %>%
   mutate(pop_density = pop_total / area_mi)
 ```
@@ -91,11 +94,10 @@ map_tracts <- left_join(map_tracts, philadelphia_svi, by = "GEOID") %>%
 
 -   All other maps are colored by quantiles. You'll be able to see the absolute value by hovering and clicking on the tract. This is better for identifying clusters and comparing different areas.
 
-::: {.grid}
-::: {.g-col-6}
 ## Population Map
 ```{r}
 #| echo: false
+#| layout-ncol: 2
 #| fig-height: 10
 #| fig-width: 12
 
@@ -453,13 +455,12 @@ pop_map <- pop_map %>%
 
 pop_map
 ```
-:::
 
-::: {.g-col-6}
 ## Age and Sex Map
 
 ```{r}
 #| echo: false
+#| layout-ncol: 2
 #| fig-height: 10
 #| fig-width: 12
 
@@ -650,13 +651,12 @@ age_map <- age_map %>%
 
 age_map
 ```
-:::
 
-::: {.g-col-6}
 ## Education Map
 
 ```{r}
 #| echo: false
+#| layout-ncol: 2
 #| fig-height: 10
 #| fig-width: 12
 
@@ -845,13 +845,12 @@ education_map <- leaflet(map_tracts) %>%
   
 education_map
 ```
-:::
 
-::: {.g-col-6}
 ## Housing Map
 
 ```{r}
 #| echo: false
+#| layout-ncol: 2
 #| fig-height: 10
 #| fig-width: 12
 
@@ -1038,13 +1037,12 @@ housing_map <- leaflet(map_tracts) %>%
   
 housing_map
 ```
-:::
 
-::: {.g-col-6}
 ## [Social Vulnerability Index (SVI)](https://www.atsdr.cdc.gov/place-health/php/svi/svi-frequently-asked-questions-faqs.html) Map
 
 ```{r}
 #| echo: false
+#| layout-ncol: 2
 #| fig-height: 10
 #| fig-width: 12
 
@@ -1297,7 +1295,7 @@ svi_map <- leaflet(map_tracts) %>%
   
 svi_map
 ```
-:::
+
 ```{r}
 #| eval: false
 #| include: false
