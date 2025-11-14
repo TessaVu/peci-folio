@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "PFAS",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "PFAS-01 Manayunk Canal", "Description": "Upstream of Wissahickon confluence, captures \"background\" Schuylkill water." }, "geometry": { "type": "Point", "coordinates": [ -75.2420508, 40.0371469, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-02 Wissahickon Confluence", "Description": "To capture contaminant load from the Wissahickon watershed." }, "geometry": { "type": "Point", "coordinates": [ -75.2075036, 40.012661, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-03 Before CSOs", "Description": "Just upstream of Fairmount Dam." }, "geometry": { "type": "Point", "coordinates": [ -75.1969334, 39.992252, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-04 Below Fairmount Dam", "Description": "Intensifying density and urbanity." }, "geometry": { "type": "Point", "coordinates": [ -75.1840869, 39.9652121, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-05 Near Mouth SW Treatment Plant", "Description": "" }, "geometry": { "type": "Point", "coordinates": [ -75.1807508, 39.9535952, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-06 University City Hospitals", "Description": "Downstream of multiple CSOs, high population density." }, "geometry": { "type": "Point", "coordinates": [ -75.190956, 39.943866, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-07 Gray's Ferry", "Description": "Near former industrial sites, bridge runoff." }, "geometry": { "type": "Point", "coordinates": [ -75.2069783, 39.9337923, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-08 Passyunk Avenue Bridge", "Description": "Downstream of Mingo, near complex industrial area, tidally influenced." }, "geometry": { "type": "Point", "coordinates": [ -75.2019766, 39.9198476, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-09 Mingo Confluence", "Description": "To capture discharge from the Mingo watershed (industrial, landfill)." }, "geometry": { "type": "Point", "coordinates": [ -75.2108635, 39.897269, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "PFAS-10 Delaware Confluence", "Description": "Captures the final \"signature\" of the Schuylkill before it meets the Delaware. Near the Southwest Water Pollution Control Plant and airport." }, "geometry": { "type": "Point", "coordinates": [ -75.1946406, 39.8849223, 0.0 ] } }
+]
+}

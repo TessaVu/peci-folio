@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>PFAS</name>
+    <Style id="icon-1899-E65100-normal">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-E65100-highlight">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-E65100">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-E65100-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-E65100-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-E65100-nodesc-normal">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-E65100-nodesc-highlight">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-E65100-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-E65100-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-E65100-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>PFAS-01 Manayunk Canal</name>
+      <description><![CDATA[Upstream of Wissahickon confluence, captures "background" Schuylkill water.]]></description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2420508,40.0371469,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-02 Wissahickon Confluence</name>
+      <description>To capture contaminant load from the Wissahickon watershed.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2075036,40.012661,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-03 Before CSOs</name>
+      <description>Just upstream of Fairmount Dam.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1969334,39.992252,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-04 Below Fairmount Dam</name>
+      <description>Intensifying density and urbanity.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1840869,39.9652121,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-05 Near Mouth SW Treatment Plant</name>
+      <styleUrl>#icon-1899-E65100-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1807508,39.9535952,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-06 University City Hospitals</name>
+      <description>Downstream of multiple CSOs, high population density.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.190956,39.943866,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name><![CDATA[PFAS-07 Gray's Ferry]]></name>
+      <description>Near former industrial sites, bridge runoff.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2069783,39.9337923,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-08 Passyunk Avenue Bridge</name>
+      <description>Downstream of Mingo, near complex industrial area, tidally influenced.</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2019766,39.9198476,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-09 Mingo Confluence</name>
+      <description>To capture discharge from the Mingo watershed (industrial, landfill).</description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2108635,39.897269,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PFAS-10 Delaware Confluence</name>
+      <description><![CDATA[Captures the final "signature" of the Schuylkill before it meets the Delaware. Near the Southwest Water Pollution Control Plant and airport.]]></description>
+      <styleUrl>#icon-1899-E65100</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1946406,39.8849223,0
+        </coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

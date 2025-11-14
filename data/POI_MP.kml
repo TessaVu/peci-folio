@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>MP</name>
+    <Style id="icon-1899-0288D1-normal">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-0288D1-highlight">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-0288D1">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0288D1-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0288D1-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-0F9D58-normal">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-0F9D58-highlight">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-0F9D58">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0F9D58-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0F9D58-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-0F9D58-nodesc-normal">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-0F9D58-nodesc-highlight">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-0F9D58-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0F9D58-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0F9D58-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-9C27B0-normal">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-9C27B0-highlight">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-9C27B0">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-9C27B0-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-9C27B0-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1899-9C27B0-nodesc-normal">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-9C27B0-nodesc-highlight">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-9C27B0-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-9C27B0-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-9C27B0-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>MP-01 Manayunk Canal</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2420508,40.0371469,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-02 Wissahickon Confluence</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2075734,40.0127637,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-03 Before CSOs</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1969333,39.9920548,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-04 Below Fairmount Dam</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1840869,39.9652121,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-05 Market Street</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1807394,39.9535626,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-06 University City Hospital</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1909668,39.9438578,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name><![CDATA[MP-07 Gray's Ferry]]></name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2069997,39.9337759,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-08 Mingo Confluence</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2019766,39.9198476,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-09 Passyunk Avenue Bridge</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2108635,39.897269,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-10 Delaware Confluence</name>
+      <description>Paired samples to study co-occurrence of PFAS and MPs from same sources.</description>
+      <styleUrl>#icon-1899-0288D1</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1946406,39.8849223,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-11 Upstream Fort Washington</name>
+      <description><![CDATA[Captures upstream "background" for the creek.]]></description>
+      <styleUrl>#icon-1899-0F9D58</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2183486,40.1373374,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-12 Valley Green Road Bridge</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2191903,40.1129228,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-13 Bells Mill Road Bridge</name>
+      <description>After college and country club.</description>
+      <styleUrl>#icon-1899-0F9D58</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2254664,40.079223,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-14 Cresheim Creek Confluence</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2145974,40.050751,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-15 Gorgas Outlet</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2118054,40.0432076,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-16 Kitchens Lane Outlet</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2015802,40.0364305,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-17 Walnut Lane Bridge</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1996467,40.032356,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-18 Monoshone Creek Confluence</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.193171,40.0275525,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-19 Henry Avenue Bridge</name>
+      <styleUrl>#icon-1899-0F9D58-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.1961098,40.0239748,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-20 Haverford</name>
+      <description>Upstream densest Philly area. Merion Golf Club.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.3113515,40.0021978,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-21 Before Major CSOs</name>
+      <description>Suburban area.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2829718,39.9768043,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-22 Indian Creek Confluence</name>
+      <description>SEPTA Depot</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2604106,39.9662599,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-23 Multiple CSOs</name>
+      <styleUrl>#icon-1899-9C27B0-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2485638,39.9642855,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-24 Marshall Road</name>
+      <description>Near PWD Stream Restoration project.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2500555,39.9576965,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-25 Cobbs Creek Park</name>
+      <description>High-use urban park in dense neighborhood.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2394067,39.9406522,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-26 Cobbs Creek Parkway</name>
+      <description>After major CSOs. Green space.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2380757,39.9325908,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>MP-27 Darby Confluence</name>
+      <description>Captures total load from Cobbs.</description>
+      <styleUrl>#icon-1899-9C27B0</styleUrl>
+      <Point>
+        <coordinates>
+          -75.2550955,39.9058464,0
+        </coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
