@@ -1,0 +1,17 @@
+{
+  "hash": "84f84d516ee39404002fb800db81db30",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"PECI: POI Sampling Locations\"\nauthor: \"Tess Vu\"\naffiliation: \"University of Pennsylvania, Department of Urban Spatial Analytics (MUSA)\"\nformat: html\n---\n\n## Univariate and Bivariate Analysis\nCombines individual EJI maps, SVI maps, and bivariate EJI × SVI maps.\n\n\n\n\n\n\n\n\n\n\n\n### Univariate EJI Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-eji-1.png){width=3600}\n:::\n:::\n\n\n### Univariate EJI PFAS Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-eji-pfas-1.png){width=3600}\n:::\n:::\n\n\n### Univariate EJI Microplastic Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-eji-mp-1.png){width=3600}\n:::\n:::\n\n\n### Univariate SVI Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-svi-1.png){width=3600}\n:::\n:::\n\n\n### Univariate SVI PFAS Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-svi-pfas-1.png){width=3600}\n:::\n:::\n\n\n### Univariate SVI Microplastic Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-svi-mp-1.png){width=3600}\n:::\n:::\n\n\n\n\n### Bivariate PFAS Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-bivariate-pfas-1.png){width=3600}\n:::\n:::\n\n\n### Bivariate Microplastic Map\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-bivariate-mp-1.png){width=3600}\n:::\n:::\n\n\n\n\n\n\n\n\n### Bivariate Correlation Analysis\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](static_POIs_files/figure-html/visualize-correlation-analysis-1.png){width=3600}\n:::\n:::\n\n\n\n\n",
+    "supporting": [
+      "static_POIs_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

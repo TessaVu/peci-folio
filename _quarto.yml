@@ -7,7 +7,9 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Preliminary Maps
+      - href: static_POIs.qmd
+        text: POI Sampling Maps
 
 format:
   html:

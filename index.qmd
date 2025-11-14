@@ -1,5 +1,7 @@
 ---
-title: "Philadelphia Demographics"
+title: "PECI: Philadelphia Preliminary Demographics"
+author: "Tess Vu"
+affiliation: "University of Pennsylvania, Department of Urban Spatial Analytics (MUSA)"
 format: html
 ---
 

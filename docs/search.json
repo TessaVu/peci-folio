@@ -1,50 +1,64 @@
 [
   {
+    "objectID": "static_POIs.html",
+    "href": "static_POIs.html",
+    "title": "PECI: POI Sampling Locations",
+    "section": "",
+    "text": "Combines individual EJI maps, SVI maps, and bivariate EJI × SVI maps."
+  },
+  {
+    "objectID": "static_POIs.html#univariate-and-bivariate-analysis",
+    "href": "static_POIs.html#univariate-and-bivariate-analysis",
+    "title": "PECI: POI Sampling Locations",
+    "section": "",
+    "text": "Combines individual EJI maps, SVI maps, and bivariate EJI × SVI maps."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "",
     "text": "NOTE: Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values in percents on a continuous scale. This means only extreme outliers will show darker colors, this is because they didn’t have enough observations to color by quantiles."
   },
   {
     "objectID": "index.html#population-map",
     "href": "index.html#population-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "Population Map",
     "text": "Population Map"
   },
   {
     "objectID": "index.html#age-and-sex-map",
     "href": "index.html#age-and-sex-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "Age and Sex Map",
     "text": "Age and Sex Map"
   },
   {
     "objectID": "index.html#education-map",
     "href": "index.html#education-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "Education Map",
     "text": "Education Map"
   },
   {
     "objectID": "index.html#housing-map",
     "href": "index.html#housing-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "Housing Map",
     "text": "Housing Map"
   },
   {
     "objectID": "index.html#social-vulnerability-index-svi-map",
     "href": "index.html#social-vulnerability-index-svi-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "2022 Social Vulnerability Index (SVI) Map",
     "text": "2022 Social Vulnerability Index (SVI) Map\n\n\n\nSVI Themes"
   },
   {
     "objectID": "index.html#environmental-justice-index-eji-map",
     "href": "index.html#environmental-justice-index-eji-map",
-    "title": "Philadelphia Demographics",
+    "title": "PECI: Philadelphia Preliminary Demographics",
     "section": "2024 Environmental Justice Index (EJI) Map",
     "text": "2024 Environmental Justice Index (EJI) Map\n\n\n\nEJI Themes\n\n\n\n\n\nEJI Indicators"
   }
