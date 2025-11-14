@@ -130,7 +130,7 @@ add_poi_layer <- function(base_plot, poi_data, poi_color, n_labels) {
       data = poi_data,
       color = "white",
       fill = poi_color,
-      size = 2,
+      size = 4,
       shape = 21,
       stroke = 1,
       alpha = 1
@@ -156,6 +156,21 @@ add_poi_layer <- function(base_plot, poi_data, poi_color, n_labels) {
 ```
 
 ```{r}
+water_arc <- st_read("data/Hydrographic_Features_Arc/Hydrographic_Features_Arc.shp") %>%
+  st_transform(2272)
+
+water_poly <- st_read("data/Hydrographic_Features_Poly/Hydrographic_Features_Poly.shp") %>%
+  st_transform(2272)
+
+philly_boundary <- map_tracts %>% 
+  st_union() %>% 
+  st_make_valid()
+
+water_poly <- st_crop(water_poly, st_bbox(philly_boundary))
+water_arc  <- st_crop(water_arc,  st_bbox(philly_boundary))
+```
+
+```{r}
 # ---- Create Individual Univariate Maps ----
 
 # Function for univariate maps
@@ -177,7 +192,7 @@ create_univariate_map <- function(data, var, var_name, color_option = "viridis")
           color = "#d6f1fe",
           linewidth = 0.5
     ) +
-    scale_fill_viridis_d(name = var_name, option = color_option, 
+    scale_fill_viridis_d(name = var_name, option = color_option, direction = -1,
                          alpha = 0.8, begin = 0.1, end = 0.9) +
     theme_universal_map()
 }
@@ -203,21 +218,6 @@ map_svi_mp <- add_poi_layer(map_svi, MP_POI, "#DC143C", 0) +
        subtitle = "Microplastic Sampling Locations")
 ```
 
-```{r}
-water_arc <- st_read("data/Hydrographic_Features_Arc/Hydrographic_Features_Arc.shp") %>%
-  st_transform(2272)
-
-water_poly <- st_read("data/Hydrographic_Features_Poly/Hydrographic_Features_Poly.shp") %>%
-  st_transform(2272)
-
-philly_boundary <- map_tracts %>% 
-  st_union() %>% 
-  st_make_valid()
-
-water_poly <- st_crop(water_poly, st_bbox(philly_boundary))
-water_arc  <- st_crop(water_arc,  st_bbox(philly_boundary))
-```
-
 ```{r bivariate}
 # ---- Create Bivariate Maps ----
 
@@ -234,11 +234,11 @@ map_bivariate_base <- ggplot(map_tracts) +
   theme_universal_map()
 
 # Add POIs to bivariate maps
-map_bivariate_pfas <- add_poi_layer(map_bivariate_base, PFAS_POI, "#DC143C", 0) +
+map_bivariate_pfas <- add_poi_layer(map_bivariate_base, PFAS_POI, "#DC143C", 10) +
   labs(title = "Bivariate: EJI × SVI",
        subtitle = "PFAS Sampling Locations")
 
-map_bivariate_mp <- add_poi_layer(map_bivariate_base, MP_POI, "#DC143C", 0) +
+map_bivariate_mp <- add_poi_layer(map_bivariate_base, MP_POI, "#DC143C", 27) +
   labs(title = "Bivariate: EJI × SVI",
        subtitle = "Microplastic Sampling Locations")
 
