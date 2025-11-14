@@ -116,6 +116,14 @@ map_tracts <- left_join(map_tracts, philadelphia_svi, by = "GEOID")
 map_tracts <- left_join(map_tracts, philadelphia_eji, by = "GEOID")
 ```
 
+```{r}
+#| echo: false
+#| include: false
+PFAS_POI <- st_read("data/POI_PFAS.geojson")
+
+MP_POI <- st_read("data/POI_MP.geojson")
+```
+
 **NOTE:** Hispanic, Native American, Pacific Islander, and Drop Out percentages are colored numerically and represent absolute values in percents on a continuous scale. This means **only extreme outliers will show darker colors**, this is because they didn't have enough observations to color by quantiles.
 
 -   All other maps are colored by quantiles, which divides the data into groups with an equal number of census tracts, making it easy to compare between the high-value and low-value populations or areas. This is better for identifying clusters and comparing different areas.
@@ -1154,7 +1162,7 @@ housing_map
 svi_map <- leaflet(map_tracts) %>%
   addTiles() %>%
   setView(lng = -75.1638, lat = 39.9523, zoom = 11) %>%
-
+  
   # Population density.
   addPolygons(
     data = map_tracts,
@@ -1323,6 +1331,56 @@ svi_map <- leaflet(map_tracts) %>%
     group = "Overall SVI"
   ) %>%
   
+  # MP POIs
+  addCircleMarkers(
+    data = MP_POI,
+    radius = 3,
+    color = "black",
+    fillColor = "black",
+    fillOpacity = 1,
+    opacity = 1,
+    label = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ) %>% lapply(htmltools::HTML),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", "padding" = "3px 8px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    popup = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ),
+    group = "MP Points of Interest",
+    options = pathOptions(pane = "markerPane")
+  ) %>%
+  
+  # PFAS POIs
+  addCircleMarkers(
+    data = PFAS_POI,
+    radius = 3,
+    color = "red",
+    fillColor = "red",
+    fillOpacity = 1,
+    opacity = 1,
+    label = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ) %>% lapply(htmltools::HTML),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", "padding" = "3px 8px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    popup = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ),
+    group = "PFAS Points of Interest",
+    options = pathOptions(pane = "markerPane")
+  ) %>%
+  
   # Add legends for each layer.
   addLegend(
     position = "bottomright",
@@ -1389,7 +1447,7 @@ svi_map <- leaflet(map_tracts) %>%
   ) %>%
   
   addLayersControl(
-    overlayGroups = c("Population Density", "Median Household Income", "Socioeconomic Status SVI", "Household Characteristics SVI", "Racial & Ethnic Minority Status SVI", "Racial & Ethnic Minority Status SVI", "Housing Type & Transportation SVI", "Overall SVI"),
+    overlayGroups = c("Population Density", "Median Household Income", "Socioeconomic Status SVI", "Household Characteristics SVI", "Racial & Ethnic Minority Status SVI", "Racial & Ethnic Minority Status SVI", "Housing Type & Transportation SVI", "Overall SVI", "PFAS Points of Interest", "MP Points of Interest"),
     options = layersControlOptions(collapsed = TRUE)
   ) %>%
     
@@ -1560,6 +1618,56 @@ ej_map <- leaflet(map_tracts) %>%
     group = "Overall EJI"
   ) %>%
   
+  # MP POIs
+  addCircleMarkers(
+    data = MP_POI,
+    radius = 3,
+    color = "black",
+    fillColor = "black",
+    fillOpacity = 1,
+    opacity = 1,
+    label = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ) %>% lapply(htmltools::HTML),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", "padding" = "3px 8px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    popup = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ),
+    group = "MP Points of Interest",
+    options = pathOptions(pane = "markerPane")
+  ) %>%
+  
+  # PFAS POIs
+  addCircleMarkers(
+    data = PFAS_POI,
+    radius = 3,
+    color = "red",
+    fillColor = "red",
+    fillOpacity = 1,
+    opacity = 1,
+    label = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ) %>% lapply(htmltools::HTML),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", "padding" = "3px 8px"),
+      textsize = "12px",
+      direction = "auto"
+    ),
+    popup = ~paste0(
+      "<strong>", Name, "</strong><br>",
+      Description
+    ),
+    group = "PFAS Points of Interest",
+    options = pathOptions(pane = "markerPane")
+  ) %>%
+  
   # Add legends for each layer.
   addLegend(
     position = "bottomright",
@@ -1617,7 +1725,7 @@ ej_map <- leaflet(map_tracts) %>%
   ) %>%
   
   addLayersControl(
-    overlayGroups = c("Population Density", "Median Household Income", "Environmental Burden EJI", "Climate Burden EJI", "Health Vulnerability EJI", "Overall EJI"),
+    overlayGroups = c("Population Density", "Median Household Income", "Environmental Burden EJI", "Climate Burden EJI", "Health Vulnerability EJI", "Overall EJI", "PFAS Points of Interest", "MP Points of Interest"),
     options = layersControlOptions(collapsed = TRUE)
   ) %>%
     
