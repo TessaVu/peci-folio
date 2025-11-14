@@ -1,0 +1,480 @@
+---
+title: "PECI POI Sampling Locations"
+format: html
+---
+```{r libraries}
+#| message: false
+#| warning: false
+# Univariate and Bivariate Analysis
+# Combines individual EJI maps, SVI maps, and bivariate EJI × SVI maps
+# All with PFAS and Microplastic POI annotations
+
+library(tidyverse)
+library(tidycensus)
+library(sf)
+library(scales)
+library(findSVI)
+library(ggrepel)
+library(cowplot)
+library(viridis)
+library(ggspatial)
+library(patchwork)
+```
+
+```{r setup-and-configuration}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+# ---- Setup and Configuration ----
+default_font_family <- "Helvetica"
+default_font_color <- "#2E2E2E"
+default_background_color <- "#FAFAFA"
+
+# ---- Load and Prepare Data ----
+cat("Loading and preparing data...\n")
+
+# Load tract data
+philly_tracts <- st_read("data/philly_tracts/philly_tracts.shp") %>%
+  filter(COUNTYFP == "101")
+
+# Load vulnerability indices
+philadelphia_svi <- find_svi(year = 2022, state = "PA", geography = "tract") %>%
+  subset(grepl("^42101", GEOID)) %>%
+  select(-c("year", "state"))
+
+philadelphia_eji <- read_csv("data/EJI_2024_Pennsylvania_CSV/EJI_2024_Pennsylvania.csv") %>%
+  filter(COUNTYFP == "101") %>%
+  select(c("GEOID", "RPL_EBM", "RPL_CBM", "RPL_HVM", "RPL_EJI_CBM")) %>%
+  mutate(across(c(RPL_EBM, RPL_CBM, RPL_HVM, RPL_EJI_CBM), ~na_if(., -999)))
+
+philadelphia_eji$GEOID <- as.character(philadelphia_eji$GEOID)
+
+# Combine all data
+map_tracts <- philly_tracts %>%
+  left_join(philadelphia_svi, by = "GEOID") %>%
+  left_join(philadelphia_eji, by = "GEOID") %>%
+  st_set_crs(4326) %>%
+  st_transform(2272)
+
+# Load POI data
+PFAS_POI <- st_read("data/POI_PFAS.geojson") %>% st_transform(2272)
+MP_POI <- st_read("data/POI_MP.geojson") %>% st_transform(2272)
+```
+
+```{r themes}
+#| message: false
+#| warning: false
+# ---- Bivariate Classification ----
+# Create 3x3 bivariate classes
+bivariate_colors <- tibble(
+  group = c("1-1", "2-1", "3-1", "1-2", "2-2", "3-2", "1-3", "2-3", "3-3"),
+  fill = c("#CABED0", "#BC7C8F", "#AE3A4E", "#89A1C8", "#806A8A", 
+           "#77324C", "#4885C1", "#435786", "#3F2949"),
+  label = c("Low/Low", "Med/Low", "High/Low", "Low/Med", "Med/Med",
+            "High/Med", "Low/High", "Med/High", "High/High")
+)
+
+# Calculate tertiles
+svi_tertiles <- quantile(map_tracts$RPL_themes, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE)
+eji_tertiles <- quantile(map_tracts$RPL_EJI_CBM, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE)
+
+# Classify tracts
+map_tracts <- map_tracts %>%
+  mutate(
+    svi_class = cut(RPL_themes, breaks = svi_tertiles, labels = 1:3, include.lowest = TRUE),
+    eji_class = cut(RPL_EJI_CBM, breaks = eji_tertiles, labels = 1:3, include.lowest = TRUE),
+    bi_class = paste0(as.numeric(svi_class), "-", as.numeric(eji_class))
+  ) %>%
+  left_join(bivariate_colors, by = c("bi_class" = "group"))
+
+# ---- Universal Theme ----
+theme_universal_map <- function(legend.position = "right") {
+  theme_minimal() +
+    theme(
+      text = element_text(family = default_font_family, color = default_font_color),
+      axis.line = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title = element_blank(),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.background = element_rect(fill = "#dedbd4", color = "#dedbd4"),
+      panel.background = element_rect(fill = "#dedbd4", color = "#dedbd4"),
+      plot.margin = unit(c(0.3, 0.3, 0.3, 0.3), "cm"),
+      plot.title = element_text(size = 12, face = "bold", hjust = 0.5),
+      plot.subtitle = element_text(size = 10, hjust = 0.5),
+      plot.caption = element_text(size = 8, color = "#666666"),
+      legend.position = legend.position,
+      legend.title = element_text(size = 10),
+      legend.text = element_text(size = 8),
+      legend.key.height = unit(0.5, "cm"),
+      legend.key.width = unit(0.3, "cm")
+    )
+}
+```
+
+```{r}
+# ---- Helper Function for POI Annotations ----
+add_poi_layer <- function(base_plot, poi_data, poi_color, n_labels) {
+  # Extract coordinates
+  poi_coords <- st_coordinates(poi_data) %>%
+    as_tibble() %>%
+    rename(x = X, y = Y)
+  
+  poi_labels <- poi_data %>%
+    st_drop_geometry() %>%
+    bind_cols(poi_coords) %>%
+    slice_head(n = n_labels)
+  
+  # Add points and labels
+  base_plot +
+    geom_sf(
+      data = poi_data,
+      color = "white",
+      fill = poi_color,
+      size = 2,
+      shape = 21,
+      stroke = 1,
+      alpha = 1
+    ) +
+    geom_label_repel(
+      data = poi_labels,
+      aes(x = x, y = y, label = str_wrap(Name, 15)),
+      size = 2,
+      family = default_font_family,
+      box.padding = unit(20, "mm"),
+      point.padding = unit(4, "mm"),
+      max.overlaps = Inf,
+      force = 10,
+      direction = "both",
+      min.segment.length = 0,
+      segment.color = poi_color,
+      segment.size = 0.5,
+      fill = alpha("white", 0.8),
+      label.size = 0.1,
+      arrow = arrow(length = unit(0.2, "cm"))
+    )
+}
+```
+
+```{r}
+# ---- Create Individual Univariate Maps ----
+
+# Function for univariate maps
+create_univariate_map <- function(data, var, var_name, color_option = "viridis") {
+  # Create quintiles
+  quintiles <- quantile(data[[var]], probs = seq(0, 1, 0.2), na.rm = TRUE)
+  labels <- sprintf("Q%d: %.2f-%.2f", 1:5, 
+                    quintiles[1:5], quintiles[2:6])
+  
+  data <- data %>%
+    mutate(var_class = cut(.data[[var]], breaks = quintiles, 
+                           labels = labels, include.lowest = TRUE))
+  
+  ggplot(data) +
+    geom_sf(aes(fill = var_class), color = "#f5f4f0", linewidth = 0.5) +
+    geom_sf(data = water_poly,
+          fill = "#d6f1fe",
+          alpha = 1,
+          color = "#d6f1fe",
+          linewidth = 0.5
+    ) +
+    scale_fill_viridis_d(name = var_name, option = color_option, 
+                         alpha = 0.8, begin = 0.1, end = 0.9) +
+    theme_universal_map()
+}
+
+# Create EJI maps
+map_eji <- create_univariate_map(map_tracts, "RPL_EJI_CBM", "EJI\nPercentile", "rocket")
+map_eji_pfas <- add_poi_layer(map_eji, PFAS_POI, "#DC143C", 0) +
+  labs(title = "Environmental Justice Index", 
+       subtitle = "PFAS Sampling Locations")
+
+map_eji_mp <- add_poi_layer(map_eji, MP_POI, "#DC143C", 0) +
+  labs(title = "Environmental Justice Index",
+       subtitle = "Microplastic Sampling Locations")
+
+# Create SVI maps
+map_svi <- create_univariate_map(map_tracts, "RPL_themes", "SVI\nPercentile", "rocket")
+map_svi_pfas <- add_poi_layer(map_svi, PFAS_POI, "#DC143C", 0) +
+  labs(title = "Social Vulnerability Index",
+       subtitle = "PFAS Sampling Locations")
+
+map_svi_mp <- add_poi_layer(map_svi, MP_POI, "#DC143C", 0) +
+  labs(title = "Social Vulnerability Index",
+       subtitle = "Microplastic Sampling Locations")
+```
+
+```{r}
+water_arc <- st_read("data/Hydrographic_Features_Arc/Hydrographic_Features_Arc.shp") %>%
+  st_transform(2272)
+
+water_poly <- st_read("data/Hydrographic_Features_Poly/Hydrographic_Features_Poly.shp") %>%
+  st_transform(2272)
+
+philly_boundary <- map_tracts %>% 
+  st_union() %>% 
+  st_make_valid()
+
+water_poly <- st_crop(water_poly, st_bbox(philly_boundary))
+water_arc  <- st_crop(water_arc,  st_bbox(philly_boundary))
+```
+
+```{r bivariate}
+# ---- Create Bivariate Maps ----
+
+# Bivariate base map
+map_bivariate_base <- ggplot(map_tracts) +
+  geom_sf(aes(fill = fill), color = "#f5f4f0", linewidth = 0.75) +
+  geom_sf(data = water_poly,
+          fill = "#d6f1fe",
+          alpha = 1,
+          color = "#d6f1fe",
+          linewidth = 0.75
+) +
+  scale_fill_identity() +
+  theme_universal_map()
+
+# Add POIs to bivariate maps
+map_bivariate_pfas <- add_poi_layer(map_bivariate_base, PFAS_POI, "#DC143C", 0) +
+  labs(title = "Bivariate: EJI × SVI",
+       subtitle = "PFAS Sampling Locations")
+
+map_bivariate_mp <- add_poi_layer(map_bivariate_base, MP_POI, "#DC143C", 0) +
+  labs(title = "Bivariate: EJI × SVI",
+       subtitle = "Microplastic Sampling Locations")
+
+# ---- Create Bivariate Legend ----
+bivariate_legend <- ggplot() +
+  geom_tile(
+    data = bivariate_colors %>%
+      separate(group, into = c("svi", "eji"), sep = "-", convert = TRUE),
+    aes(x = eji, y = svi, fill = fill),
+    color = "#dedbd4",
+    size = 1
+  ) +
+  scale_fill_identity() +
+  scale_x_continuous(breaks = c(1, 3), labels = c("Low", "High"), expand = c(0, 0)) +
+  scale_y_continuous(breaks = c(1, 3), labels = c("Low", "High"), expand = c(0, 0)) +
+  labs(x = "EJI →", y = "SVI →") +
+  theme_minimal() +
+  theme(
+    text = element_text(family = default_font_family, size = 12),
+    axis.title = element_text(size = 10, face = "bold"),
+    axis.text = element_text(size = 8),
+    panel.grid = element_blank(),
+    plot.background = element_rect(fill = "#dedbd4", color = "#dedbd4")
+  ) +
+  coord_fixed()
+
+# Add legend to bivariate maps
+map_bivariate_pfas_full <- ggdraw() +
+  draw_plot(map_bivariate_pfas, 0, 0, 1, 1) +
+  draw_plot(bivariate_legend, 0.75, 0.05, 0.2, 0.2)
+
+map_bivariate_mp_full <- ggdraw() +
+  draw_plot(map_bivariate_mp, 0, 0, 1, 1) +
+  draw_plot(bivariate_legend, 0.75, 0.05, 0.2, 0.2)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-dpi: 300
+#| fig-height: 14
+#| fig-width: 14
+map_bivariate_pfas_full
+
+#ggsave("test.png", map_bivariate_pfas_full, width = 14, height = 14, dpi = 300, bg = "#f5f4f0")
+#ggsave("map_bivariate_pfas_full.png", map_bivariate_pfas_full, width = 14, height = 14, dpi = 300, bg = "#dedbd4")
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-dpi: 300
+#| fig-height: 14
+#| fig-width: 14
+map_bivariate_mp_full
+
+#ggsave("map_bivariate_mp_full.png", map_bivariate_mp_full, width = 14, height = 14, dpi = 300, bg = "#dedbd4")
+```
+
+```{r figure-panels}
+# ---- Create Comprehensive Figure Panels ----
+
+cat("Creating comprehensive figure panels...\n")
+
+# Panel 1: All PFAS maps (univariate EJI, SVI, and bivariate)
+pfas_panel <- plot_grid(
+  map_eji_pfas + theme_universal_map("bottom"),
+  map_svi_pfas + theme_universal_map("bottom"),
+  map_bivariate_pfas_full,
+  ncol = 3,
+  labels = c("EJI", "SVI", "Bivariate"),
+  label_size = 11,
+  label_fontfamily = default_font_family
+)
+
+pfas_panel_titled <- plot_grid(
+  ggdraw() + draw_label("PFAS Contamination Sites Analysis", 
+                        fontfamily = default_font_family,
+                        fontface = "bold", size = 14),
+  pfas_panel,
+  ncol = 1,
+  rel_heights = c(0.05, 0.95)
+)
+
+# Panel 2: All Microplastic maps
+mp_panel <- plot_grid(
+  map_eji_mp + theme_universal_map("bottom"),
+  map_svi_mp + theme_universal_map("bottom"),
+  map_bivariate_mp_full,
+  ncol = 3,
+  labels = c("EJI", "SVI", "Bivariate"),
+  label_size = 11,
+  label_fontfamily = default_font_family
+)
+
+mp_panel_titled <- plot_grid(
+  ggdraw() + draw_label("Microplastic Sampling Sites Analysis",
+                        fontfamily = default_font_family,
+                        fontface = "bold", size = 14),
+  mp_panel,
+  ncol = 1,
+  rel_heights = c(0.05, 0.95)
+)
+```
+
+```{r master-grid}
+# ---- Create Master Grid: All 6 Maps ----
+
+master_grid <- plot_grid(
+  map_eji_pfas + theme_universal_map("none") + labs(title = "EJI + PFAS"),
+  map_svi_pfas + theme_universal_map("none") + labs(title = "SVI + PFAS"),
+  map_bivariate_pfas + theme_universal_map("none") + labs(title = "Bivariate + PFAS"),
+  map_eji_mp + theme_universal_map("none") + labs(title = "EJI + MP"),
+  map_svi_mp + theme_universal_map("none") + labs(title = "SVI + MP"),
+  map_bivariate_mp + theme_universal_map("none") + labs(title = "Bivariate + MP"),
+  ncol = 3,
+  nrow = 2
+)
+
+# Add legend panel
+legend_panel <- plot_grid(
+  NULL,
+  bivariate_legend + 
+    labs(title = "Bivariate Legend", x = "EJI →", y = "SVI →") +
+    theme(plot.title = element_text(size = 9, face = "bold", hjust = 0.5)),
+  NULL,
+  ncol = 3,
+  rel_widths = c(0.35, 0.3, 0.35)
+)
+
+master_grid_with_legend <- plot_grid(
+  ggdraw() + 
+    draw_label("Complete Vulnerability Analysis: Philadelphia Census Tracts",
+               fontfamily = default_font_family, fontface = "bold", size = 16),
+  ggdraw() +
+    draw_label("Environmental Justice Index, Social Vulnerability Index, and Bivariate Analysis",
+               fontfamily = default_font_family, size = 12, color = "#666666"),
+  master_grid,
+  legend_panel,
+  ncol = 1,
+  rel_heights = c(0.04, 0.03, 0.83, 0.1)
+)
+```
+
+```{r correlation-analysis}
+# ---- Create Correlation Analysis ----
+
+correlation_plot <- map_tracts %>%
+  st_drop_geometry() %>%
+  filter(!is.na(RPL_themes) & !is.na(RPL_EJI_CBM)) %>%
+  ggplot(aes(x = RPL_EJI_CBM, y = RPL_themes)) +
+  geom_point(aes(fill = fill), shape = 21, size = 2.5, 
+             color = "white", stroke = 0.5, alpha = 0.7) +
+  scale_fill_identity() +
+  geom_smooth(method = "lm", se = TRUE, color = "#333333", 
+              size = 0.8, alpha = 0.3) +
+  geom_density_2d(color = "#666666", alpha = 0.5, size = 0.3) +
+  labs(
+    x = "Environmental Justice Index (EJI)",
+    y = "Social Vulnerability Index (SVI)",
+    title = "Correlation Analysis",
+    subtitle = sprintf("r = %.3f | Census Tracts Colored by Bivariate Class",
+                      cor(map_tracts$RPL_themes, map_tracts$RPL_EJI_CBM, 
+                          use = "complete.obs"))
+  ) +
+  scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
+  theme_minimal() +
+  theme(
+    text = element_text(family = default_font_family),
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "#666666"),
+    panel.grid.minor = element_blank()
+  ) +
+  coord_fixed()
+```
+
+```{r save}
+# ---- Save All Outputs ----
+
+# Individual maps
+ggsave("complete_pfas_panel.png", pfas_panel_titled,
+       width = 18, height = 7, dpi = 300, bg = "#dedbd4")
+
+ggsave("complete_mp_panel.png", mp_panel_titled,
+       width = 18, height = 7, dpi = 300, bg = "#dedbd4")
+
+# Master grid
+ggsave("complete_master_grid.png", master_grid_with_legend,
+       width = 18, height = 16, dpi = 300, bg = "#dedbd4")
+
+# Correlation plot
+ggsave("complete_correlation_analysis.png", correlation_plot,
+       width = 7, height = 7, dpi = 300, bg = "#dedbd4")
+
+# High-resolution version for publication
+ggsave("complete_master_grid_hires.pdf", master_grid_with_legend, bg = "#dedbd4",
+       width = 18, height = 16, device = "pdf")
+```
+
+```{r summary}
+# ---- Generate Summary Report ----
+
+# Calculate summary statistics
+summary_stats <- map_tracts %>%
+  st_drop_geometry() %>%
+  group_by(bi_class, label) %>%
+  summarise(
+    n_tracts = n(),
+    mean_svi = mean(RPL_themes, na.rm = TRUE),
+    mean_eji = mean(RPL_EJI_CBM, na.rm = TRUE),
+    sd_svi = sd(RPL_themes, na.rm = TRUE),
+    sd_eji = sd(RPL_EJI_CBM, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(bi_class)
+
+# Count POIs by bivariate class
+poi_summary <- bind_rows(
+  map_tracts %>%
+    st_join(PFAS_POI %>% mutate(poi_type = "PFAS")) %>%
+    st_drop_geometry() %>%
+    filter(!is.na(poi_type)) %>%
+    count(bi_class, label, poi_type),
+  map_tracts %>%
+    st_join(MP_POI %>% mutate(poi_type = "MP")) %>%
+    st_drop_geometry() %>%
+    filter(!is.na(poi_type)) %>%
+    count(bi_class, label, poi_type)
+) %>%
+  pivot_wider(names_from = poi_type, values_from = n, values_fill = 0)
+
+# Combine and save
+final_summary <- summary_stats %>%
+  left_join(poi_summary, by = c("bi_class", "label")) %>%
+  replace_na(list(PFAS = 0, MP = 0))
+
+write_csv(final_summary, "complete_analysis_summary.csv")
+```
